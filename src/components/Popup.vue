@@ -1,18 +1,32 @@
 <template>
-  <div :v-if="msg" ref="msg" class="msg">
-    <h1>hey i'm social distancing</h1>
-    {{msg}}
+  <div ref="msg" class="msg">
+    <div class="msg-inner" :style="`background: ${this.colors[this.colPos].col};`">
+      <h2>{{messages[message]}}</h2>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   watch: {
-    // mouse: {
-    //   handler(e) {
-    //     this.$refs.cursor.style = `transform: translateX(${e.x}px) translateY(${e.y}px);`;
-    //   }
-    // }
+    msg: {
+      handler(e) {
+        // this.$refs.cursor.style = `transform: translateX(${e.x}px) translateY(${e.y}px);`;
+        // console.log(e);
+        this.colPos = Math.floor(Math.random() * this.colors.length);
+
+        let xpos = Math.floor(Math.random() * (window.innerWidth - 200));
+        let ypos = Math.floor(Math.random() * (window.innerHeight - 200));
+        this.$refs.msg.style = `transform: translateX(${xpos}px) translateY(${ypos}px);
+        opacity: ${e ? 1 : 0};`;
+
+        if (this.change !== e) {
+          this.change = e;
+          this.message = Math.floor(Math.random() * this.messages.length);
+        }
+        // console.log(this.message);
+      }
+    }
   },
   name: "Mouse",
   props: {
@@ -23,7 +37,30 @@ export default {
   },
   components: {},
   data() {
-    return {};
+    let message;
+    let change;
+    let pos;
+    let colPos = 0;
+
+    return {
+      message,
+      change,
+      pos,
+      colPos,
+      messages: [
+        "wash your damn hands",
+        "eat your vegetables",
+        "hey i am social distancing",
+        "don't touch me",
+        "stay tf away from me eh",
+        "#quarantinelife"
+      ],
+      colors: [
+        { col: "#ff1100" }, //red
+        { col: "#0320ff" }, //blue
+        { col: "#00cc44" } //green
+      ]
+    };
   },
   methods: {},
   mounted() {}
@@ -49,11 +86,24 @@ a {
 .msg {
   width: 200px;
   height: 200px;
-  border-radius: 500px;
-  background: white;
-  opacity: 0.6;
-  position: absolute;
+
+  /* opacity: 0.6; */
+  opacity: 0;
+  position: fixed;
   top: 0;
   left: 0;
+}
+.msg-inner {
+  height: 200px;
+  width: 200px;
+  border-radius: 500px;
+  /* background: white; */
+  display: table-cell;
+  vertical-align: middle;
+  padding: 0 2em;
+}
+.msg-inner h2 {
+  /* transform: translateY(50%); */
+  color: white;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <!-- change if new file -->
-  <div id="vi" :style="style" ref="vilavContainer"></div>
+  <div :id="data.name" :style="style" :ref="`${data.name}lavContainer`"></div>
 </template>
 
 <script>
@@ -8,6 +8,7 @@ import lottie from "lottie-web";
 
 export default {
   watch: {
+    data: {},
     mouse: {
       handler(e) {
         this.mouseObj = e;
@@ -25,6 +26,9 @@ export default {
   props: {
     mouse: {
       type: Object
+    },
+    data: {
+      type: Object
     }
   },
   methods: {
@@ -38,8 +42,9 @@ export default {
       this.animFinished = false;
 
       if (e) {
-        // console.log(e.y);
-        this.movedAway = e.y > this.area.bottom || e.y < this.area.top;
+        if (this.area) {
+          this.movedAway = e.y > this.area.bottom || e.y < this.area.top;
+        }
         if (
           e.y > this.minY &&
           e.y < this.maxY &&
@@ -55,12 +60,12 @@ export default {
         //movedAway: go to middle!!!
         if (this.movedAway) {
           if (this.animState === "right") {
-            this.animate(require("../assets/vi-right-to-middle.json")); //change if new file
+            this.animate(this.data.right_to_middle); //change if new file
             this.animState = "middle";
 
             return;
           } else if (this.animState === "left") {
-            this.animate(require("../assets/vi-left-to-middle.json")); //change if new file
+            this.animate(this.data.left_to_middle); //change if new file
             this.animState = "middle";
 
             return;
@@ -69,9 +74,11 @@ export default {
         //isCrossing: go to middle!!!
         if (this.animState !== "middle") {
           if (e.x < this.leftCorner && this.animState === "right") {
+            // console.log("something happening hjere?");
+
             if (this.animState === "right") {
               this.animState = "middle";
-              this.animate(require("../assets/vi-right-to-middle.json")); //change if new file
+              this.animate(this.data.right_to_middle); //change if new file
             } else {
               lottie.setDirection(-1);
             }
@@ -80,7 +87,7 @@ export default {
           } else if (e.x > this.rightCorner) {
             if (this.animState === "left") {
               this.animState = "middle";
-              this.animate(require("../assets/vi-left-to-middle.json")); //change if new file
+              this.animate(this.data.left_to_middle); //change if new file
             } else {
               lottie.setDirection(-1);
             }
@@ -95,7 +102,7 @@ export default {
           this.animState !== "right" &&
           this.animState === "middle"
         ) {
-          this.animate(require("../assets/vi-middle-to-right.json")); //change if new file
+          this.animate(this.data.middle_to_right); //change if new file
           this.animState = "right";
           return;
         }
@@ -106,7 +113,7 @@ export default {
           this.animState !== "left" &&
           this.animState === "middle"
         ) {
-          this.animate(require("../assets/vi-middle-to-left.json")); //change if new file
+          this.animate(this.data.middle_to_left); //change if new file
           this.animState = "left";
           return;
         }
@@ -117,7 +124,7 @@ export default {
             e.x < this.windowHalf &&
             this.animState === "left"
           ) {
-            this.animate(require("../assets/vi-left-to-right.json")); //change if new file
+            this.animate(this.data.left_to_right); //change if new file
             this.animState = "right";
             return;
           }
@@ -128,7 +135,7 @@ export default {
             this.animState === "right"
           ) {
             // lottie.setDirection(-1);
-            this.animate(require("../assets/vi-right-to-left.json")); //change if new file
+            this.animate(this.data.right_to_left); //change if new file
 
             this.anim.play();
             this.animState = "left";
@@ -138,10 +145,16 @@ export default {
       }
     },
     setPos() {
-      if (this.$refs.vilavContainer) {
-        this.area = this.$refs.vilavContainer.getBoundingClientRect();
-
-        this.letter = this.$refs.vilavContainer.children[0].children[1];
+      if (
+        this.$refs[`${this.data.name}lavContainer`] &&
+        this.$refs[`${this.data.name}lavContainer`].children[0]
+      ) {
+        this.area = this.$refs[
+          `${this.data.name}lavContainer`
+        ].getBoundingClientRect();
+        this.letter =
+          this.$refs[`${this.data.name}lavContainer`].children[0].children[1] ||
+          this.$refs[`${this.data.name}lavContainer`].children[0];
         this.letter.style = "color: white;";
         this.minY = this.letter.getBoundingClientRect().y;
         this.maxY = this.letter.getBoundingClientRect().height + this.minY;
@@ -159,7 +172,7 @@ export default {
         this.anim.destroy();
       }
       this.anim = lottie.loadAnimation({
-        container: this.$refs.vilavContainer,
+        container: this.$refs[`${this.data.name}lavContainer`],
         renderer: "svg",
         firstFrame: this.anim.totalFrames,
         loop: this.options.loop !== false,
@@ -167,7 +180,6 @@ export default {
         animationData: path,
         rendererSettings: this.options.rendererSettings
       });
-
       this.anim.play();
     }
   },
@@ -191,9 +203,9 @@ export default {
       options: {
         loop: false,
         autoplay: false,
-        path: require("../assets/vi-middle-to-left.json"), //change if new file (is default, so resting position should be in the middle)
+        path: this.data.middle_to_left, //change if new file (is default, so resting position should be in the middle)
         rendererSettings: "",
-        id: "vi" //change too
+        id: this.data.name
       },
       style: {
         width: this.width ? `${this.width}px` : "100%",
@@ -206,7 +218,7 @@ export default {
 
   mounted() {
     this.anim = lottie.loadAnimation({
-      container: this.$refs.vilavContainer,
+      container: this.$refs[`${this.data.name}lavContainer`],
       renderer: "svg",
       loop: this.options.loop !== false,
       autoplay: this.options.autoplay !== false,

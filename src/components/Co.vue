@@ -32,7 +32,7 @@ export default {
       setTimeout(() => {
         this.animFinished = true;
         this.animation(this.mouseObj);
-      }, 1000);
+      }, 500);
     },
     animation(e) {
       this.animFinished = false;
@@ -47,9 +47,6 @@ export default {
         ) {
           this.isCrossing = true;
           this.$emit("message", true);
-          setTimeout(() => {
-            this.$emit("message", false);
-          }, 2000);
         } else {
           this.isCrossing = false;
         }
@@ -156,7 +153,7 @@ export default {
         }
       }
     },
-    animate(path, dir) {
+    animate(path) {
       if (this.anim) {
         this.anim.destroy();
       }
@@ -169,12 +166,7 @@ export default {
         animationData: path,
         rendererSettings: this.options.rendererSettings
       });
-      if (dir === "reverse") {
-        lottie.setDirection(-1);
-        this.anim.play();
-      } else {
-        this.anim.play();
-      }
+      this.anim.play();
     }
   },
   data() {
