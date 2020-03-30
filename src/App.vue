@@ -1,54 +1,47 @@
 <template>
   <div ref="app" id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <!-- <Co @message="handleMessage" :mouse="mouse" /> -->
-    <Letters
-      :key="covid19array[0].name"
-      :data="covid19array[0]"
-      @message="handleMessage"
-      :mouse="mouse"
-    />
-    <Letters
-      :key="covid19array[1].name"
-      :data="covid19array[1]"
-      @message="handleMessage"
-      :mouse="mouse"
-    />
-    <Letters
-      :key="covid19array[2].name"
-      :data="covid19array[2]"
-      @message="handleMessage"
-      :mouse="mouse"
-    />
-
-    <!-- <Vi @message="handleMessage" :mouse="mouse" /> -->
-
+    <Intro />
+    <CoronaVirusesOverlay :delay="delay" />
+    <transition v-for="(idx,i ) in covid19array" :key="i">
+      <Letters
+        :key="covid19array[i].name"
+        :data="covid19array[i]"
+        @message="handleMessage"
+        :mouse="mouse"
+      />
+    </transition>
+    <CustomCursor :mouse="mouse" />
     <Popup :msg="showMsg" />
   </div>
 </template>
 
 <script>
-// import Co from "./components/Co.vue";
 import Letters from "./components/Letters.vue";
-
 import Popup from "./components/Popup.vue";
-// import lottie from "./Lottie";
+import CustomCursor from "./components/Cursor.vue";
+import Intro from "./components/Intro.vue";
+import CoronaVirusesOverlay from "./components/CoronaVirusesOverlay.vue";
 
 export default {
   name: "App",
   components: {
-    // Co,
     Popup,
-    Letters
+    Letters,
+    CustomCursor,
+    Intro,
+    CoronaVirusesOverlay
   },
   data() {
     let msg = false;
     let mouse;
     let showMsg = false;
+    let counter = 0;
     return {
       msg,
       mouse,
+      counter,
       showMsg,
+      delay: 3000,
       covid19array: [
         {
           name: "co",
@@ -81,6 +74,11 @@ export default {
     };
   },
   methods: {
+    scrollEventListener() {
+      window.addEventListener("scroll", () => {
+        console.log(window.pageYOffset);
+      });
+    },
     handleMessage() {
       if (!this.showMsg) {
         this.showMsg = true;
@@ -89,6 +87,16 @@ export default {
           this.showMsg = false;
         }, 2000);
       }
+    },
+    timedNoScroll() {
+      document.documentElement.style.overflow = "hidden";
+      document.documentElement.style.height = "100%";
+      setTimeout(() => {
+        this.scrollEventListener();
+
+        document.documentElement.style.overflow = "";
+        document.documentElement.style.height = "";
+      }, this.delay);
     },
     /* eslint-disable no-unused-vars */
     cursor() {
@@ -111,6 +119,7 @@ export default {
   },
   mounted() {
     // console.log("hi");
+    this.timedNoScroll();
     this.cursor();
   }
 };
@@ -122,12 +131,30 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  position: relative;
   color: #2c3e50;
   /* margin-top: 60px; */
-  background: #1a1a1a;
+  background: #1b1c21;
+  cursor: none;
+  overflow-y: hidden;
 }
 path {
-  fill: white;
-  cursor: pointer;
+  fill: grey;
+}
+h1,
+h2 {
+  font-family: Reservation;
+  color: white;
+  font-size: 60px;
+  letter-spacing: 1.2px;
+}
+h3 {
+  font-family: Reservation;
+  letter-spacing: 1.2px;
+  font-size: 30px;
+}
+@font-face {
+  font-family: Reservation;
+  src: url("./assets/fonts/ReservationWide-Bold.woff");
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div ref="msg" class="msg">
     <div class="msg-inner" :style="`background: ${this.colors[this.colPos].col};`">
-      <h2>{{messages[message]}}</h2>
+      <h3>{{messages[message]}}</h3>
     </div>
   </div>
 </template>
@@ -48,12 +48,14 @@ export default {
       pos,
       colPos,
       messages: [
-        "wash your damn hands",
-        "eat your vegetables",
-        "hey i am social distancing",
+        "wash your hands for 40 seconds",
+        "eat your fruits and veggies",
+        "hey i'm social distancing",
         "don't touch me",
-        "stay tf away from me eh",
-        "#quarantinelife"
+        "#quarantinelife",
+        "stay the heckin' heck home",
+        "exercise",
+        "get your dirty arrow off of me"
       ],
       colors: [
         { col: "#ff1100" }, //red
@@ -69,9 +71,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
 ul {
   list-style-type: none;
   padding: 0;
@@ -102,7 +101,7 @@ a {
   vertical-align: middle;
   padding: 0 2em;
 }
-.msg-inner h2 {
+.msg-inner h3 {
   /* transform: translateY(50%); */
   color: white;
 }

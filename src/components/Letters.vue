@@ -1,6 +1,11 @@
 <template>
   <!-- change if new file -->
-  <div :id="data.name" :style="style" :ref="`${data.name}lavContainer`"></div>
+  <div
+    style="border-bottom: 1px solid white;"
+    :id="data.name"
+    :style="style"
+    :ref="`${data.name}lavContainer`"
+  ></div>
 </template>
 
 <script>
@@ -53,8 +58,10 @@ export default {
         ) {
           this.isCrossing = true;
           this.$emit("message", true);
+          //   this.style.background = "#ededed";
         } else {
           this.isCrossing = false;
+          //   this.style.background = "";
         }
 
         //movedAway: go to middle!!!
@@ -208,10 +215,12 @@ export default {
         id: this.data.name
       },
       style: {
-        width: this.width ? `${this.width}px` : "100%",
+        width: this.width ? `${this.width}px` : "calc(100% - 2px)",
         height: this.height ? `${this.height}px` : "100%",
         overflow: "hidden",
-        margin: "0 auto"
+        margin: "0 auto",
+        background: "",
+        transition: "background .25s ease"
       }
     };
   },
