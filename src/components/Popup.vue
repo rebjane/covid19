@@ -89,6 +89,7 @@ a {
   /* opacity: 0.6; */
   opacity: 0;
   position: fixed;
+  z-index: 3;
   top: 0;
   left: 0;
 }

@@ -1,11 +1,6 @@
 <template>
   <!-- change if new file -->
-  <div
-    style="border-bottom: 1px solid white;"
-    :id="data.name"
-    :style="style"
-    :ref="`${data.name}lavContainer`"
-  ></div>
+  <div :id="data.name" :style="style" :ref="`${data.name}lavContainer`"></div>
 </template>
 
 <script>

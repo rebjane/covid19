@@ -54,14 +54,28 @@ export default {
     data: {
       handler(e) {
         this.idx = e.idx;
-      }
+      },
+      immediate: true
     },
-    immediate: true
+    scrollPos: {
+      handler(e) {
+        this.$refs.coronavirus_svg.style = `transform: rotate(${e * 0.1}deg);`;
+        // console.log(e);
+      }
+    }
   },
   name: "CoronaViruses",
   props: {
     data: {
       type: Object
+    },
+    scrollPos: {
+      type: Number,
+      default: 0
+    },
+    transition: {
+      type: Boolean,
+      default: false
     }
   },
   components: {},
@@ -78,6 +92,7 @@ export default {
         Math.floor(Math.random() * this.data.overlayHeight - 200) + 200;
       this.xpos = Math.floor(Math.random() * window.innerWidth - 200) + 200;
       this.$refs.coronavirus.style = `left: ${this.xpos}px; top: ${this.ypos}px;`;
+      console.log(this.$refs.coronavirus.attributes.class);
     },
     rotate() {
       this.coronavirus_svg = this.$refs.coronavirus_svg;
@@ -98,7 +113,7 @@ export default {
     }
   },
   mounted() {
-    this.rotate();
+    // this.rotate();
     this.getOverlayDimension();
   }
 };
@@ -120,5 +135,15 @@ export default {
 
   svg {
   }
+}
+.spread-enter-active {
+  // transform: scale(1);
+  transform: scale(0) !important;
+
+  transition: transform 0.5s ease;
+}
+.spread-enter-to {
+  transform: scale(1) !important;
+  transition: transform 0.5s ease;
 }
 </style>

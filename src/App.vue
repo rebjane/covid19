@@ -1,7 +1,7 @@
 <template>
   <div ref="app" id="app">
     <Intro />
-    <CoronaVirusesOverlay :delay="delay" />
+    <CoronaVirusesOverlay :delay="delay" :scrollPos="scrollPos" />
     <transition v-for="(idx,i ) in covid19array" :key="i">
       <Letters
         :key="covid19array[i].name"
@@ -36,11 +36,13 @@ export default {
     let mouse;
     let showMsg = false;
     let counter = 0;
+    let scrollPos;
     return {
       msg,
       mouse,
       counter,
       showMsg,
+      scrollPos,
       delay: 3000,
       covid19array: [
         {
@@ -73,10 +75,17 @@ export default {
       ]
     };
   },
+  beforeMount() {
+    window.onbeforeunload = function() {
+      window.scrollTo(0, 0);
+    };
+  },
   methods: {
     scrollEventListener() {
       window.addEventListener("scroll", () => {
-        console.log(window.pageYOffset);
+        // console.log(window.pageYOffset);
+        this.scrollPos = window.pageYOffset;
+        // console.log(this.scrollPos);
       });
     },
     handleMessage() {
@@ -134,7 +143,13 @@ export default {
   position: relative;
   color: #2c3e50;
   /* margin-top: 60px; */
-  background: #1b1c21;
+  /* background: #1b1c21; */
+  background: rgb(15, 15, 15);
+  background: linear-gradient(
+    355deg,
+    rgba(15, 15, 15, 1) 0%,
+    rgba(44, 47, 57, 1) 100%
+  );
   cursor: none;
   overflow-y: hidden;
 }
