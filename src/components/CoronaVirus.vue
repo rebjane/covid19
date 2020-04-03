@@ -92,7 +92,6 @@ export default {
         Math.floor(Math.random() * this.data.overlayHeight - 200) + 200;
       this.xpos = Math.floor(Math.random() * window.innerWidth - 200) + 200;
       this.$refs.coronavirus.style = `left: ${this.xpos}px; top: ${this.ypos}px;`;
-      console.log(this.$refs.coronavirus.attributes.class);
     },
     rotate() {
       this.coronavirus_svg = this.$refs.coronavirus_svg;
@@ -123,7 +122,7 @@ export default {
 <style lang="scss" scoped>
 .cls-1 {
   fill: none;
-  stroke: #fff;
+  stroke: #00cc44;
   stroke-miterlimit: 10;
   stroke-width: 2px;
 }

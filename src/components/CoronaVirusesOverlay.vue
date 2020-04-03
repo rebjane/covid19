@@ -1,7 +1,7 @@
 <template>
   <div ref="overlay" class="c19-overlay" :style="`transform: translateY(${scrollPos*0.3}px);`">
     <transition-group appear name="spread" v-if="SPREADTHEVIRUS">
-      <CoronaVirus :scrollPos="scrollPos" :data="pos" v-for="(idx, i) in 10" :key="i" />
+      <CoronaVirus :transition="SPREADTHEVIRUS" :scrollPos="scrollPos" :data="pos" v-for="(idx, i) in 10" :key="i" />
     </transition-group>
   </div>
 </template>
@@ -66,14 +66,5 @@ export default {
   // position: absolute;
 }
 
-.spread-enter-active {
-  // transform: scale(1);
-  transform: scale(0);
 
-  transition: transform 0.5s ease;
-}
-.spread-enter {
-  transform: scale(0);
-  transition: transform 0.5s ease;
-}
 </style>

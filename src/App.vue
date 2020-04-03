@@ -1,6 +1,7 @@
 <template>
   <div ref="app" id="app">
-    <Intro />
+    <Background />
+    <Intro :scrollPos="scrollPos" />
     <CoronaVirusesOverlay :delay="delay" :scrollPos="scrollPos" />
     <transition v-for="(idx,i ) in covid19array" :key="i">
       <Letters
@@ -21,6 +22,7 @@ import Popup from "./components/Popup.vue";
 import CustomCursor from "./components/Cursor.vue";
 import Intro from "./components/Intro.vue";
 import CoronaVirusesOverlay from "./components/CoronaVirusesOverlay.vue";
+import Background from "./components/Background.vue";
 
 export default {
   name: "App",
@@ -29,7 +31,8 @@ export default {
     Letters,
     CustomCursor,
     Intro,
-    CoronaVirusesOverlay
+    CoronaVirusesOverlay,
+    Background
   },
   data() {
     let msg = false;
@@ -144,14 +147,15 @@ export default {
   color: #2c3e50;
   /* margin-top: 60px; */
   /* background: #1b1c21; */
-  background: rgb(15, 15, 15);
-  background: linear-gradient(
+  /* background: rgb(15, 15, 15); */
+  /* background: linear-gradient(
     355deg,
     rgba(15, 15, 15, 1) 0%,
     rgba(44, 47, 57, 1) 100%
-  );
+  ); */
+  background: #0e0f12;
   cursor: none;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 path {
   fill: grey;
@@ -171,5 +175,9 @@ h3 {
 @font-face {
   font-family: Reservation;
   src: url("./assets/fonts/ReservationWide-Bold.woff");
+}
+@font-face {
+  font-family: ReservationReg;
+  src: url("./assets/fonts/ReservationWide-Regular.woff");
 }
 </style>

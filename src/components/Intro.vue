@@ -2,7 +2,9 @@
   <div class="intro">
     <div class="intro-text">
       <transition v-for="(idx, i) in intro" :key="i">
-        <h2 style="overflow: hidden;">
+        <h2
+          :style="`overflow: hidden;transform: translateY(-${scrollPos ? (scrollPos * (i * 0.15)) : 0 }px);`"
+        >
           <transition appear name="intro">
             <span :style="`transition-delay: ${(i * 0.5) + 1}s;`" class="intro-inner">{{idx}}</span>
           </transition>
@@ -16,7 +18,12 @@
 export default {
   watch: {},
   name: "Template",
-  props: {},
+  props: {
+    scrollPos: {
+      type: Number,
+      default: 0
+    }
+  },
   components: {},
   data() {
     let intro = ["COVID19. ", "We’re in this together.", " You’re not alone."];
